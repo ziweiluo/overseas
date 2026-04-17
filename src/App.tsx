@@ -420,7 +420,7 @@ function App() {
     <div className="app-shell">
       <header className="topnav">
         <div className="brand">
-          <img src="/海盟logo.png" alt="海盟 logo" className="brand-logo" />
+          <img src="/haimeng_logo.png" alt="海盟 logo" className="brand-logo" />
           <span>海盟海外仓</span>
         </div>
         <nav className="topnav-links">
