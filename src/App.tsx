@@ -322,12 +322,6 @@ const warehouses: Warehouse[] = [
   },
 ];
 
-const advantages = [
-  { title: 'FBM服务', description: '打通库存分配与订单处理堵点，配置店铺专属物流方案。', icon: 'precision_manufacturing' },
-  { title: '安全合规保障', description: '24 小时监控与标准化流程，保障货物在海外稳定周转。', icon: 'verified_user' },
-  { title: '中英文双语客服', description: '7×24 小时响应，跨时区协作更顺畅，沟通更直接。', icon: 'support_agent' },
-];
-
 const services = [
   {
     title: '一件代发',
