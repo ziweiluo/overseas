@@ -192,6 +192,7 @@ type Warehouse = {
   orders: string;
   summary: string;
   tone: string;
+  image: string;
 };
 
 const navItems = [
@@ -214,6 +215,7 @@ const warehouses: Warehouse[] = [
     orders: '20000',
     summary: '海盟美西海外仓，占地面积 5 万平米，提供一件代发、FBA 中转和提拆派等服务，距离港口约 60 分钟车程，覆盖全美大约 25% 以上的订单。',
     tone: 'blue',
+    image: '/US1.png',
   },
   {
     name: '美东新泽西 1 号仓',
@@ -226,6 +228,7 @@ const warehouses: Warehouse[] = [
     orders: '20000',
     summary: '海盟美东新泽西海外仓，占地面积 4 万平米，提供一件代发、FBA 中转和提拆派等服务，距离港口约 60 分钟车程，覆盖全美大约 25% 以上的订单。',
     tone: 'navy',
+    image: '/US2.png',
   },
   {
     name: '美东萨凡纳仓',
@@ -238,6 +241,7 @@ const warehouses: Warehouse[] = [
     orders: '10000',
     summary: '海盟美东萨凡纳海外仓，占地面积 2 万平米，提供一件代发、FBA 中转和提拆派等服务，距离港口约 60 分钟车程，覆盖全美大约 25% 以上的订单。',
     tone: 'cyan',
+    image: '/US3.png',
   },
   {
     name: '美中亚特兰大仓',
@@ -250,6 +254,7 @@ const warehouses: Warehouse[] = [
     orders: '10000',
     summary: '海盟美东亚特兰大海外仓，占地面积 3 万平米，提供一件代发、FBA 中转和提拆派等服务，距离港口约 60 分钟车程，覆盖全美大约 25% 以上的订单。',
     tone: 'indigo',
+    image: '/US4.png',
   },
   {
     name: '美南德州仓',
@@ -262,6 +267,7 @@ const warehouses: Warehouse[] = [
     orders: '10000',
     summary: '海盟美南德州海外仓，占地面积 3 万平米，提供一件代发、FBA 中转和提拆派等服务，距离港口约 60 分钟车程，覆盖全美大约 25% 以上的订单。',
     tone: 'slate',
+    image: '/US5.png',
   },
   {
     name: '加东多伦多仓',
@@ -274,6 +280,7 @@ const warehouses: Warehouse[] = [
     orders: '10000',
     summary: '海盟加拿大多伦多海外仓，占地面积 2 万平米，提供一件代发、FBA 中转和提拆派等服务，距离港口约 40 分钟车程，覆盖加拿大大约 70% 以上的订单。',
     tone: 'violet',
+    image: '/CA1.png',
   },
   {
     name: '加西温哥华 1 号仓',
@@ -286,6 +293,7 @@ const warehouses: Warehouse[] = [
     orders: '10000',
     summary: '海盟美西海外仓，占地面积 1 万平米，提供一件代发、FBA 中转和提拆派等服务，距离港口约 40 分钟车程，覆盖全美大约 30% 以上的订单。',
     tone: 'gold',
+    image: '/CA2.png',
   },
   {
     name: '英国仓',
@@ -297,6 +305,7 @@ const warehouses: Warehouse[] = [
     orders: '10000',
     summary: '海盟英国海外仓，占地面积 2 万平米，提供一件代发、FBA 中转和提拆派等服务，距离港口约 40 分钟车程。',
     tone: 'emerald',
+    image: '/UK.png',
   },
   {
     name: '法国仓',
@@ -308,6 +317,7 @@ const warehouses: Warehouse[] = [
     orders: '10000',
     summary: '海盟法国海外仓，占地面积 2 万平米，提供一件代发、FBA 中转和提拆派等服务，距离港口约 60 分钟车程。',
     tone: 'red',
+    image: '/FR.png',
   },
   {
     name: '德国仓',
@@ -319,6 +329,7 @@ const warehouses: Warehouse[] = [
     orders: '10000',
     summary: '海盟德国海外仓，占地面积 2 万平米，提供一件代发、FBA 中转和提拆派等服务，距离港口约 50 分钟车程。',
     tone: 'slate',
+    image: '/GE.png',
   },
 ];
 
@@ -421,7 +432,7 @@ function App() {
 
   return (
     <div className="app-shell">
-      <header className="topnav">
+      {/* <header className="topnav">
         <div className="brand">
           <img src="/haimeng_logo.png" alt="海盟 logo" className="brand-logo" />
           <span>海盟海外仓</span>
@@ -447,7 +458,7 @@ function App() {
           <button className="btn btn-primary">立即入驻</button>
           <button className="btn btn-secondary">联系我们</button>
         </div>
-      </header>
+      </header> */}
 
       <main>
         <section className={`hero hero-reference ${visibleSections.intro ? 'is-visible' : ''}`} id="intro">
@@ -512,6 +523,11 @@ function App() {
             {filteredWarehouses.map((warehouse) => (
               <article className="warehouse-row-card" key={warehouse.name}>
                 <div className={`warehouse-image warehouse-tone-${warehouse.tone}`}>
+                  <img 
+                    src={warehouse.image} 
+                    alt={`${warehouse.name}仓库图片`}
+                    className="warehouse-photo"
+                  />
                   <div className="status-badge">
                     <span className="status-badge-icon"><LocationIcon /></span>
                     {warehouse.location}
@@ -673,14 +689,18 @@ function App() {
             </div>
 
             <div className="advantages-visual">
-              <div className="visual-card visual-card-top" />
-              <div className="visual-card visual-card-bottom" />
+              <div className="visual-card visual-card-top">
+                <img src="/warehouse.png" alt="仓储管理" className="visual-card-image" />
+              </div>
+              <div className="visual-card visual-card-bottom">
+                <img src="/FBM.png" alt="FBM服务" className="visual-card-image" />
+              </div>
             </div>
           </div>
         </section>
       </main>
 
-      <footer className="footer" id="about">
+      {/* <footer className="footer" id="about">
         <div className="footer-branding">
           <div className="footer-title">关注我们</div>
           <div className="footer-qr-row">
@@ -712,7 +732,7 @@ function App() {
             </div>
           </div>
         </div>
-      </footer>
+      </footer> */}
 
     </div>
   );
