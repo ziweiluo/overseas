@@ -430,6 +430,10 @@ function App() {
 
   const filteredWarehouses = warehouses.filter((item) => region === 'all' || item.region === region);
 
+  const handleRegionChange = (nextRegion: 'us' | 'ca' | 'eu') => {
+    setRegion((currentRegion) => (currentRegion === nextRegion ? 'all' : nextRegion));
+  };
+
   return (
     <div className="app-shell">
       {/* <header className="topnav">
@@ -507,13 +511,13 @@ function App() {
               <p>全球核心枢纽，极速触达全球消费者</p>
             </div>
             <div className="filter-pills filter-pills-only">
-              <button className={region === 'us' ? 'pill pill-active' : 'pill'} onClick={() => setRegion('us')}>
+              <button className={region === 'us' ? 'pill pill-active' : 'pill'} onClick={() => handleRegionChange('us')}>
                 🇺🇸 美国地区
               </button>
-              <button className={region === 'ca' ? 'pill pill-active' : 'pill'} onClick={() => setRegion('ca')}>
+              <button className={region === 'ca' ? 'pill pill-active' : 'pill'} onClick={() => handleRegionChange('ca')}>
                 🇨🇦 加拿大地区
               </button>
-              <button className={region === 'eu' ? 'pill pill-active' : 'pill'} onClick={() => setRegion('eu')}>
+              <button className={region === 'eu' ? 'pill pill-active' : 'pill'} onClick={() => handleRegionChange('eu')}>
                 🇪🇺 欧洲地区
               </button>
             </div>
