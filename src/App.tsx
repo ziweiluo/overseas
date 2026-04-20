@@ -434,6 +434,12 @@ function App() {
     setRegion((currentRegion) => (currentRegion === nextRegion ? 'all' : nextRegion));
   };
 
+  const handleConsult = () => {
+    const uin = '3005273934';
+    const consultUrl = `https://wpa.qq.com/msgrd?v=3&uin=${uin}&site=qq&menu=yes`;
+    window.open(consultUrl, '_blank', 'noopener,noreferrer');
+  };
+
   return (
     <div className="app-shell">
       {/* <header className="topnav">
@@ -476,7 +482,7 @@ function App() {
               </p>
 
               <div className="hero-reference-actions">
-                <button className="btn btn-primary">立即咨询方案</button>
+                <button className="btn btn-primary" onClick={handleConsult}>立即咨询方案</button>
                 <a className="btn btn-ghost" href="#warehouses">查看全球仓图</a>
               </div>
             </div>
