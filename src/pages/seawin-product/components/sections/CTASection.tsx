@@ -65,7 +65,7 @@ const demandTypeCodeMap: Record<string, number> = {
 };
 
 // 留资接口配置（后续只改这两个变量）
-const LEAD_API_BASE_URL = '';
+const LEAD_API_BASE_URL = 'https://pc.iloveseawin.com';
 const LEAD_API_PREFIX = '/hm/system';
 const GLOBAL_PHONE_REGEX = /^\+?[0-9()\-.\s]{6,25}$/;
 
