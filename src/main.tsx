@@ -1,11 +1,28 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
-import './index.css';
-import './styles.css';
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-);
+const root = ReactDOM.createRoot(document.getElementById('root')!);
+const normalizedPath = window.location.pathname.replace(/\/+$/, '') || '/';
+const isSeawinProductPath = normalizedPath === '/seawin_product';
+
+async function bootstrap() {
+  if (isSeawinProductPath) {
+    const { default: SeawinProductPage } = await import('./pages/seawin-product');
+
+    root.render(
+      <React.StrictMode>
+        <SeawinProductPage />
+      </React.StrictMode>,
+    );
+    return;
+  }
+
+  const { default: OverseasPage } = await import('./pages/overseas');
+  root.render(
+    <React.StrictMode>
+      <OverseasPage />
+    </React.StrictMode>,
+  );
+}
+
+bootstrap();
