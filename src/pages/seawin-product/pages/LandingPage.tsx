@@ -15,8 +15,20 @@ import { FloatingButtons } from '../components/ui/FloatingButtons';
 
 export function LandingPage() {
   const searchParams = new URLSearchParams(window.location.search);
-  const embeddedFlag = (searchParams.get('embedded') || '').toLowerCase();
-  const noNavbarFlag = (searchParams.get('nonavbar') || '').toLowerCase();
+  const hashQuery = window.location.hash.includes('?')
+    ? window.location.hash.split('?')[1]
+    : '';
+  const hashParams = new URLSearchParams(hashQuery);
+  const embeddedFlag = (
+    searchParams.get('embedded') ||
+    hashParams.get('embedded') ||
+    ''
+  ).toLowerCase();
+  const noNavbarFlag = (
+    searchParams.get('nonavbar') ||
+    hashParams.get('nonavbar') ||
+    ''
+  ).toLowerCase();
   const shouldHideChrome =
     ['1', 'true', 'yes'].includes(embeddedFlag) ||
     ['1', 'true', 'yes'].includes(noNavbarFlag);
