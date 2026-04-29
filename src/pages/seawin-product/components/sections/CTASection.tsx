@@ -128,9 +128,7 @@ export function CTASection() {
     setContactError('');
     setSubmitError('');
 
-    const endpoint =
-      (import.meta.env.VITE_SEAWIN_LEAD_API_URL as string | undefined) ||
-      `${LEAD_API_BASE_URL}${LEAD_API_PREFIX}/foreign/tCustomerLead/savePublic`;
+    const endpoint = `${LEAD_API_BASE_URL}${LEAD_API_PREFIX}/foreign/tCustomerLead/savePublic`;
     const demandType = selectedDemand ? demandTypeCodeMap[selectedDemand] : undefined;
     const payload = {
       companyName: companyName.trim(),
