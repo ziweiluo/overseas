@@ -64,9 +64,8 @@ const demandTypeCodeMap: Record<string, number> = {
   跨境电商: 4,
 };
 
-// 留资接口配置（后续只改这两个变量）
-const LEAD_API_BASE_URL = 'https://pc.iloveseawin.com';
-const LEAD_API_PREFIX = '/hm/system';
+// 留资接口写死生产地址，避免被任何环境变量或拼接逻辑影响
+const LEAD_API_URL = 'https://pc.iloveseawin.com/hm/system/foreign/tCustomerLead/savePublic';
 const GLOBAL_PHONE_REGEX = /^\+?[0-9()\-.\s]{6,25}$/;
 
 export function CTASection() {
@@ -128,7 +127,7 @@ export function CTASection() {
     setContactError('');
     setSubmitError('');
 
-    const endpoint = `${LEAD_API_BASE_URL}${LEAD_API_PREFIX}/foreign/tCustomerLead/savePublic`;
+    const endpoint = LEAD_API_URL;
     const demandType = selectedDemand ? demandTypeCodeMap[selectedDemand] : undefined;
     const payload = {
       companyName: companyName.trim(),
