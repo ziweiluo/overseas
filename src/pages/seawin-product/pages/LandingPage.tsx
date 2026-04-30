@@ -34,6 +34,52 @@ export function LandingPage() {
     ['1', 'true', 'yes'].includes(noNavbarFlag);
 
   useEffect(() => {
+    if (window.parent === window) return;
+
+    let frameId: number | null = null;
+    const sendHeight = () => {
+      if (frameId !== null) window.cancelAnimationFrame(frameId);
+      frameId = window.requestAnimationFrame(() => {
+        const docEl = document.documentElement;
+        const body = document.body;
+        const height = Math.max(
+          docEl.scrollHeight,
+          docEl.offsetHeight,
+          docEl.clientHeight,
+          body ? body.scrollHeight : 0,
+          body ? body.offsetHeight : 0,
+          body ? body.clientHeight : 0,
+        );
+
+        window.parent.postMessage(
+          {
+            type: 'OVERSEAS_EMBED_HEIGHT',
+            page: 'seawin-product',
+            height,
+            href: window.location.href,
+          },
+          '*',
+        );
+      });
+    };
+
+    sendHeight();
+    const resizeObserver = new ResizeObserver(() => sendHeight());
+    resizeObserver.observe(document.documentElement);
+    if (document.body) resizeObserver.observe(document.body);
+
+    window.addEventListener('load', sendHeight);
+    window.addEventListener('resize', sendHeight);
+
+    return () => {
+      if (frameId !== null) window.cancelAnimationFrame(frameId);
+      resizeObserver.disconnect();
+      window.removeEventListener('load', sendHeight);
+      window.removeEventListener('resize', sendHeight);
+    };
+  }, []);
+
+  useEffect(() => {
     const sections = Array.from(document.querySelectorAll<HTMLElement>('[data-scroll-section]'));
 
     if (!sections.length) return;

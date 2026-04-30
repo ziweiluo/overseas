@@ -408,6 +408,58 @@ function App() {
   const [visibleSections, setVisibleSections] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
+    if (window.parent === window) return;
+
+    let frameId: number | null = null;
+    const sendHeight = () => {
+      if (frameId !== null) window.cancelAnimationFrame(frameId);
+      frameId = window.requestAnimationFrame(() => {
+        const docEl = document.documentElement;
+        const body = document.body;
+        const height = Math.max(
+          docEl.scrollHeight,
+          docEl.offsetHeight,
+          docEl.clientHeight,
+          body ? body.scrollHeight : 0,
+          body ? body.offsetHeight : 0,
+          body ? body.clientHeight : 0,
+        );
+
+        window.parent.postMessage(
+          {
+            type: 'OVERSEAS_EMBED_HEIGHT',
+            page: 'overseas-warehouse',
+            height,
+            href: window.location.href,
+          },
+          '*',
+        );
+        // 调试嵌入通信链路：确认子页面已上报高度
+        console.info('[overseas-warehouse] postMessage height -> parent', {
+          height,
+          href: window.location.href,
+          parentEqualsSelf: window.parent === window,
+        });
+      });
+    };
+
+    sendHeight();
+    const resizeObserver = new ResizeObserver(() => sendHeight());
+    resizeObserver.observe(document.documentElement);
+    if (document.body) resizeObserver.observe(document.body);
+
+    window.addEventListener('load', sendHeight);
+    window.addEventListener('resize', sendHeight);
+
+    return () => {
+      if (frameId !== null) window.cancelAnimationFrame(frameId);
+      resizeObserver.disconnect();
+      window.removeEventListener('load', sendHeight);
+      window.removeEventListener('resize', sendHeight);
+    };
+  }, []);
+
+  useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
