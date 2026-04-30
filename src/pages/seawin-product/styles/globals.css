@@ -1842,6 +1842,12 @@ p { color: var(--text-soft); line-height: 1.8; font-size: 1.05rem; }
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
 }
+.cta-contact-row > label {
+  min-width: 0;
+}
+.cta-contact-row input {
+  width: 100%;
+}
 .cta-form .cta-form-error {
   margin-top: -2px;
   font-size: 0.92rem;
@@ -2388,6 +2394,10 @@ p { color: var(--text-soft); line-height: 1.8; font-size: 1.05rem; }
     line-height: 1.42;
   }
   .cta-panel { gap: 14px; }
+  .cta-contact-row {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
   .cta-form label span,
   .cta-demand-label { font-size: 0.9rem; }
   .cta-form input { min-height: 42px; font-size: 0.8rem; }
@@ -3204,8 +3214,33 @@ p { color: var(--text-soft); line-height: 1.8; font-size: 1.05rem; }
   }
   
   .floating-btn {
-    padding: 10px 12px 10px 10px;
+    width: 44px;
+    min-width: 44px;
+    justify-content: center;
+    padding: 10px 10px;
     font-size: 0.78rem;
+    overflow: hidden;
+    transition: width 0.28s ease, padding 0.28s ease, transform 0.28s ease, box-shadow 0.28s ease;
+  }
+
+  .floating-btn span {
+    max-width: 0;
+    opacity: 0;
+    margin-left: 0;
+    white-space: nowrap;
+    transition: max-width 0.28s ease, opacity 0.22s ease, margin-left 0.28s ease;
+  }
+
+  .floating-btn.is-mobile-expanded {
+    width: 124px;
+    justify-content: flex-start;
+    padding: 10px 12px 10px 10px;
+  }
+
+  .floating-btn.is-mobile-expanded span {
+    max-width: 72px;
+    opacity: 1;
+    margin-left: 8px;
   }
   
   .floating-btn svg {

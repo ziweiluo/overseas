@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface QRCodeModalProps {
   isOpen: boolean;
@@ -40,17 +40,73 @@ function QRCodeModal({ isOpen, onClose, title, qrCodeSrc, description }: QRCodeM
 export function FloatingButtons() {
   const [showBlueWhaleQR, setShowBlueWhaleQR] = useState(false);
   const [showCustomerServiceQR, setShowCustomerServiceQR] = useState(false);
+  const [isMobileView, setIsMobileView] = useState(false);
+  const [isMobileButtonsExpanded, setIsMobileButtonsExpanded] = useState(false);
+  const floatingButtonsRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(max-width: 640px)');
+    const updateMobileView = () => {
+      const isMobile = mediaQuery.matches;
+      setIsMobileView(isMobile);
+      if (!isMobile) {
+        setIsMobileButtonsExpanded(false);
+      }
+    };
+
+    updateMobileView();
+    if (typeof mediaQuery.addEventListener === 'function') {
+      mediaQuery.addEventListener('change', updateMobileView);
+      return () => mediaQuery.removeEventListener('change', updateMobileView);
+    }
+    mediaQuery.addListener(updateMobileView);
+    return () => mediaQuery.removeListener(updateMobileView);
+  }, []);
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleMobileButtonClick = (action: () => void) => {
+    if (isMobileView && !isMobileButtonsExpanded) {
+      setIsMobileButtonsExpanded(true);
+      return;
+    }
+    action();
+  };
+
+  useEffect(() => {
+    if (!isMobileView || !isMobileButtonsExpanded) return;
+
+    const handlePointerDown = (event: PointerEvent) => {
+      const target = event.target as Node | null;
+      if (!target) return;
+      if (floatingButtonsRef.current && !floatingButtonsRef.current.contains(target)) {
+        setIsMobileButtonsExpanded(false);
+      }
+    };
+
+    const handleScrollOrDrag = () => {
+      setIsMobileButtonsExpanded(false);
+    };
+
+    document.addEventListener('pointerdown', handlePointerDown);
+    window.addEventListener('scroll', handleScrollOrDrag, { passive: true });
+    window.addEventListener('touchmove', handleScrollOrDrag, { passive: true });
+
+    return () => {
+      document.removeEventListener('pointerdown', handlePointerDown);
+      window.removeEventListener('scroll', handleScrollOrDrag);
+      window.removeEventListener('touchmove', handleScrollOrDrag);
+    };
+  }, [isMobileView, isMobileButtonsExpanded]);
+
   return (
     <>
-      <div className="floating-buttons">
+      <div className="floating-buttons" ref={floatingButtonsRef}>
         <button 
-          className="floating-btn floating-btn-primary"
-          onClick={() => setShowBlueWhaleQR(true)}
+          className={`floating-btn floating-btn-primary ${isMobileButtonsExpanded ? 'is-mobile-expanded' : ''}`}
+          onClick={() => handleMobileButtonClick(() => setShowBlueWhaleQR(true))}
           aria-label="查看平台体验二维码"
         >
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -66,8 +122,8 @@ export function FloatingButtons() {
         </button>
 
         <button 
-          className="floating-btn floating-btn-secondary"
-          onClick={() => setShowCustomerServiceQR(true)}
+          className={`floating-btn floating-btn-secondary ${isMobileButtonsExpanded ? 'is-mobile-expanded' : ''}`}
+          onClick={() => handleMobileButtonClick(() => setShowCustomerServiceQR(true))}
           aria-label="查看专属客服二维码"
         >
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -79,8 +135,8 @@ export function FloatingButtons() {
         </button>
 
         <button 
-          className="floating-btn floating-btn-top"
-          onClick={scrollToTop}
+          className={`floating-btn floating-btn-top ${isMobileButtonsExpanded ? 'is-mobile-expanded' : ''}`}
+          onClick={() => handleMobileButtonClick(scrollToTop)}
           aria-label="回到顶部"
         >
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
